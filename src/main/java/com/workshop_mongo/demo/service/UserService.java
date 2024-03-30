@@ -18,17 +18,31 @@ public class UserService {
         return repo.findAll();
     }
     public User findById(String id){
-        User user = findById(id);
-        if (user == null){
-            throw new ObjectNotFoundException("ID NAO ENCONTRADO");
-        }
-        return user;
+       Optional<User> obj = repo.findById(id);
+       return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto nao encontrado"));
     }
     public User insert(User obj){
         return repo.insert(obj);
     }
+
+    public void delete(String id){
+       repo.deleteById(id);
+    }
+
+    public User upDate(User obj){
+        User newObj = findById(obj.getId());
+        upDateData(newObj,obj);
+        return repo.save(newObj);
+    }
+
+    private void upDateData(User newObj, User obj) {
+        newObj.setName(obj.getName());
+        newObj.setEmail(obj.getEmail());
+    }
+
     public User fromDTO(UserDTO objDTO){
         return new User(objDTO.getId(),objDTO.getName(),objDTO.getEmail());
     }
+
 
 }

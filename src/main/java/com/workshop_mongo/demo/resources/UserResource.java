@@ -11,7 +11,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -20,10 +19,10 @@ public class UserResource  {
     @Autowired
     private UserService service;
     @GetMapping
-    public ResponseEntity<List<User>> findAll(){
+    public ResponseEntity<List<UserDTO>> findAll(){
         List<User> list = service.findAll();
         List<UserDTO> listdto = list.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
-        return ResponseEntity.ok().body(list);
+        return ResponseEntity.ok().body(listdto);
     }
     @GetMapping(value = "/{id}")
     public ResponseEntity<UserDTO> findById(@PathVariable String id){
@@ -36,6 +35,18 @@ public class UserResource  {
         obj = service.insert(obj);
         URI uri= ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).build();
+    }
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id){
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Void> update(@RequestBody UserDTO objDto , @PathVariable String id){
+        User obj = service.fromDTO(objDto);
+        obj.setId(id);
+        obj = service.upDate(obj);
+        return ResponseEntity.noContent().build();
     }
 
 
