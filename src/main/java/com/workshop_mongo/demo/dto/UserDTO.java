@@ -10,7 +10,7 @@ public class UserDTO implements Serializable {
     private String id;
     private String name;
     private String email;
-    public UserDTO(Optional<User> obj){
+    public UserDTO(UserDTO obj){
 
     }
     public UserDTO(User obj){
