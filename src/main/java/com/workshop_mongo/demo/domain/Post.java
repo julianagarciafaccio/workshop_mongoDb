@@ -6,6 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
+
 @Document
 public class Post implements Serializable {
     @Id
@@ -65,5 +67,18 @@ public class Post implements Serializable {
 
     public void AuthorDTO(AuthorDTO author) {
         this.author = author;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Post post = (Post) o;
+        return Objects.equals(id, post.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
