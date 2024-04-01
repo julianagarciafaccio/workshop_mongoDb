@@ -3,7 +3,6 @@ package com.workshop_mongo.demo.dto;
 import com.workshop_mongo.demo.domain.User;
 
 import java.io.Serializable;
-import java.util.Optional;
 
 public class UserDTO implements Serializable {
 
